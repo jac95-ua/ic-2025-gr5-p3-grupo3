@@ -1,0 +1,8 @@
+/home/javier/Documentos/IC/P3/IC_gr3/P3IC/source/detect/build/CMakeFiles/edit_cache.dir
+/home/javier/Documentos/IC/P3/IC_gr3/P3IC/source/detect/build/CMakeFiles/rebuild_cache.dir
+/home/javier/Documentos/IC/P3/IC_gr3/P3IC/source/detect/build/src/CMakeFiles/detect.dir
+/home/javier/Documentos/IC/P3/IC_gr3/P3IC/source/detect/build/src/CMakeFiles/edit_cache.dir
+/home/javier/Documentos/IC/P3/IC_gr3/P3IC/source/detect/build/src/CMakeFiles/rebuild_cache.dir
+/home/javier/Documentos/IC/P3/IC_gr3/P3IC/source/detect/build/src/utils/CMakeFiles/utils.dir
+/home/javier/Documentos/IC/P3/IC_gr3/P3IC/source/detect/build/src/utils/CMakeFiles/edit_cache.dir
+/home/javier/Documentos/IC/P3/IC_gr3/P3IC/source/detect/build/src/utils/CMakeFiles/rebuild_cache.dir
