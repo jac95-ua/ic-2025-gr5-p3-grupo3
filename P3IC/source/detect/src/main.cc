@@ -10,6 +10,7 @@
 #include "utils/dct.h"
 #include <string>
 #include <chrono>
+#include <future> // Incluido para std::async
 
 Image<float> get_srm_3x3() {
     Image<float> kernel(3, 3, 1);
@@ -102,12 +103,33 @@ int main(int argc, char **argv) {
     }
     int block_size=8;
     Image<unsigned char> image = load_from_file(argv[1]);
-    Image<unsigned char> srm3x3 = compute_srm(image, 3);
-    save_to_file("srm_kernel_3x3.png", srm3x3);
-    save_to_file("srm_kernel_5x5.png", compute_srm(image, 5));
-    save_to_file("ela.png", compute_ela(image, 90));
-    save_to_file("dct_invert.png", compute_dct(image, block_size, true));
-    save_to_file("dct_direct.png", compute_dct(image, block_size, false));
+
+    // <--- INICIO DEL CRONÓMETRO TOTAL --->
+    auto main_start = std::chrono::steady_clock::now();
+
+    // 2a. Lanzar las 5 tareas en paralelo.
+    auto future_srm3 = std::async(std::launch::async, compute_srm, image, 3);
+    auto future_srm5 = std::async(std::launch::async, compute_srm, image, 5);
+    auto future_ela = std::async(std::launch::async, compute_ela, image, 90);
+    auto future_dct_inv = std::async(std::launch::async, compute_dct, image, block_size, true);
+    auto future_dct_dir = std::async(std::launch::async, compute_dct, image, block_size, false);
+
+    // 2b. Sincronizar (esperar) y guardar cada resultado.
+    save_to_file("srm_kernel_3x3.png", future_srm3.get());
+    save_to_file("srm_kernel_5x5.png", future_srm5.get());
+    save_to_file("ela.png", future_ela.get());
+    save_to_file("dct_invert.png", future_dct_inv.get());
+    save_to_file("dct_direct.png", future_dct_dir.get());
+
+    // <--- FIN DEL CRONÓMETRO TOTAL --->
+    auto main_end = std::chrono::steady_clock::now();
+
+    // Imprimir el tiempo total
+    std::cout << "--------------------------------------" << std::endl;
+    std::cout << "Total elapsed time: " 
+              << std::chrono::duration_cast<std::chrono::milliseconds>(main_end - main_start).count() 
+              << "ms" << std::endl;
+    std::cout << "--------------------------------------" << std::endl;
 
     return 0;
 }
