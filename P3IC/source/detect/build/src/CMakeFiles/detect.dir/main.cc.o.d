@@ -209,4 +209,11 @@ src/CMakeFiles/detect.dir/main.cc.o: \
  /home/javier/Documentos/IC/P3/IC_gr3/P3IC/source/detect/src/utils/image.h \
  /usr/include/c++/13/chrono /usr/include/c++/13/bits/chrono.h \
  /usr/include/c++/13/ratio /usr/include/c++/13/cstdint \
- /usr/include/c++/13/ctime /usr/include/c++/13/bits/parse_numbers.h
+ /usr/include/c++/13/ctime /usr/include/c++/13/bits/parse_numbers.h \
+ /usr/include/c++/13/future /usr/include/c++/13/mutex \
+ /usr/include/c++/13/bits/std_mutex.h \
+ /usr/include/c++/13/bits/unique_lock.h \
+ /usr/include/c++/13/condition_variable \
+ /usr/include/c++/13/bits/atomic_futex.h /usr/include/c++/13/atomic \
+ /usr/include/c++/13/bits/std_function.h \
+ /usr/include/c++/13/bits/std_thread.h
