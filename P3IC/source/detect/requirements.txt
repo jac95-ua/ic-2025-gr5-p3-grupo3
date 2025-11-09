@@ -1,0 +1,2 @@
+# Python requirements for plotting and small helpers
+matplotlib>=3.0
