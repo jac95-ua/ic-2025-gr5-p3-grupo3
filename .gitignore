@@ -1,0 +1,9 @@
+# Ignore build artifacts and generated outputs for the detect project
+P3IC/source/detect/build/
+P3IC/source/detect/*.png
+P3IC/source/detect/*.csv
+P3IC/source/detect/*.jpg
+P3IC/source/detect/detect
+*.o
+CMakeFiles/
+CMakeCache.txt

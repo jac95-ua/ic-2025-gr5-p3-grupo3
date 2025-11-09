@@ -11,6 +11,7 @@
 #include <string>
 #include <chrono>
 #include <future> // Incluido para std::async
+#include <omp.h>
 
 Image<float> get_srm_3x3() {
     Image<float> kernel(3, 3, 1);
@@ -65,15 +66,21 @@ Image<unsigned char> compute_dct(const Image<unsigned char> &image, int block_si
     Image<float> grayscale = image.convert<float>().to_grayscale();
     std::vector<Block<float>> blocks = grayscale.get_blocks(block_size);
 
-    for(int i=0;i<blocks.size();i++){
+    int nBlocks = (int)blocks.size();
+    // Paralelizar procesamiento de bloques DCT por bloque (cada bloque es independiente)
+    #pragma omp parallel for schedule(static)
+    for(int bi = 0; bi < nBlocks; ++bi) {
+        // Cada hilo crea su propia matriz temporal
         float **dctBlock = dct::create_matrix(block_size, block_size);
-        dct::direct(dctBlock, blocks[i], 0);
+        dct::direct(dctBlock, blocks[bi], 0);
         if (invert) {
-          for(int k=0;k<blocks[i].size/2;k++)
-            for(int l=0;l<blocks[i].size/2;l++)
-              dctBlock[k][l] = 0.0;
-          dct::inverse(blocks[i], dctBlock, 0, 0.0, 255.);
-        }else dct::assign(dctBlock, blocks[i], 0);
+            for(int k = 0; k < blocks[bi].size/2; ++k)
+                for(int l = 0; l < blocks[bi].size/2; ++l)
+                    dctBlock[k][l] = 0.0f;
+            dct::inverse(blocks[bi], dctBlock, 0, 0.0f, 255.0f);
+        } else {
+            dct::assign(dctBlock, blocks[bi], 0);
+        }
         dct::delete_matrix(dctBlock);
     }
     Image<unsigned char> result = grayscale.convert<unsigned char>();
